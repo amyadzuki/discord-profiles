@@ -24,6 +24,16 @@
       caret-color:      #C3C4C5;
       font-size: 18px;
     }
+    /* note, the link states MUST be set in this order: link, visited, hover, then active */
+    a:link, a:visited, a:hover, a:active {
+      color: #7289DA;
+    }
+    a:link, a:visited {
+      text-decoration: none;
+    }
+    a:hover, a:active {
+      text-decoration: underline;
+    }
     small {
       font-size: 12px;
     }
