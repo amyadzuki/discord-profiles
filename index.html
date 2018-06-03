@@ -1,0 +1,392 @@
+ <!DOCTYPE html>
+<!--[if lte IE 6]><html class="preIE7 preIE8 preIE9"><![endif]-->
+<!--[if IE 7]><html class="preIE8 preIE9"><![endif]-->
+<!--[if IE 8]><html class="preIE9"><![endif]-->
+<!--[if gte IE 9]><!--><html><!--<![endif]-->
+  <head>
+    <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Discord Profile</title>
+  <meta name="author" content="amyadzuki">
+  <meta name="description" content="Edit your profile for Discord">
+  <meta name="keywords" content="profiles">
+<!--
+  <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=font1|font2|etc" type="text/css">
+-->
+  <style type="text/css">
+    body {
+      background-color: #36393E;
+      color:            #C3C4C5;
+      caret-color:      #C3C4C5;
+      font-size: 18px;
+    }
+    small {
+      font-size: 10px;
+    }
+    code {
+      border: 1px solid #000;
+      border-radius: 5px;
+      background-color: #23272A;
+      padding-left:2px;
+      padding-right:2px;
+    }
+    input, textarea, select {
+      border: 1px solid #000;
+      border-radius: 5px;
+      padding: 0.5em;
+      font-size: 15px;
+      line-height: 1.2em;
+      background-color: #36393F;
+      color: #C8C9CB;
+      caret-color: #C8C9CB;
+      font-family: "Ubuntu Mono", "Lucida Console", "Courier New", monospace;
+      background: -webkit-gradient(linear, left top, left bottom, from(#23272A), to(#36393F));
+      -webkit-box-shadow: 1px 1px 1px #23272A;
+         -moz-box-shadow: 1px 1px 1px #23272A;
+              box-shadow: 1px 1px 1px #23272A;
+    }
+    input:not([type=checkbox]):not([type=radio]), textarea, select {
+      width:80%;
+      -webkit-appearance: none;
+         -moz-appearance: none;
+          -ms-appearance: none;
+           -o-appearance: none;
+              appearance: none;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #7289DA7f;
+    }
+    input[type=checkbox].hack {
+      opacity:0;
+    }
+    .adsh {
+      font-size: 12px;
+      color:#006621;
+      border:1px solid #006621;
+      border-radius:5px;
+      padding-left:2px;
+      padding-right:2px;
+    }
+    .adad {
+      font-size: 12px;
+      color:#006621;
+      border:1px solid #006621;
+      border-radius:5px;
+      padding-left:2px;
+      padding-right:2px;
+    }
+    input[type=checkbox]:checked ~ .ads {
+      display:none;
+    }
+    input[type=checkbox] ~ .shade, input[type=radio] ~ .shade {
+      display:none;
+    }
+    input[type=checkbox]:checked ~ .shade, input[type=radio]:checked ~ .shade {
+      display:block;
+    }
+   
+  </style>
+  </head>
+  <body>
+  <label for="ads" class="hack"><span class="adsh">Show/Hide Ads</span></label>
+  <input type="checkbox" id="ads" class="hack" />
+  <div class="ads">
+    <p>
+      <span class="adad">Ad</span>
+      <br>
+        <a href="https://tiny.cc/sasakazamori">
+          Add <strong>Sasa, Kazamori</strong> to your server!
+          <br><img src="https://cdn.discordapp.com/avatars/438993059326197761/159dcc007cbcff33fa35a0a24ba10271.png?size=128" alt="Sasa, Kazamori" height="100px" />
+        </a>
+    </p>
+    <p>
+      <span class="adad">Ad</span>
+      <br>
+        <a href="">
+          Join us in Evening Escape on Discord!
+          <br><img src="https://cdn.discordapp.com/attachments/449137483163369488/450209662751604737/jsc-2.gif" alt="Evening Escape" height="100px" /><img src="https://cdn.discordapp.com/attachments/449137483163369488/449140857036210207/Eveningescape_GIF-source.gif" alt="Evening Escape" height="100px" />
+        </a>
+    </p>
+  </div>
+  <div id="load">
+    <p>
+      <label></label>
+      <textarea id="sJson"></textarea>
+      <br>
+      <small>Run <code>,load</code> to get this and <code>,save ...</code> to save it.</small>
+    </p><p>
+      <button type="button" onclick="loadProfile()">Load &#x2193;</button>
+      <button type="button" onclick="saveProfile()">Save &#x2191;</button>
+    </p>
+  </div>
+  <div id="edit">
+      <p>
+        Name:
+        <br>
+        <input id="sName" type="text" maxlength="32" />
+        <br>
+        <small>Override your username with what you would like to be called.</small>
+      </p>
+      <p>
+        Name URL:
+        <br>
+        <input id="sLink" type="text" maxlength="255" value="https://" />
+        <br>
+        <small>People will be sent to this website if they click on your name.</small>
+      </p>
+      <p>
+        Avatar URL:
+        <br>
+        <input id="sAvatar" type="text" maxlength="255" value="https://" />
+        <br>
+        <small>Override your avatar in the upper-right corner with this image.</small>
+      </p>
+      <p>
+        Tagline:
+        <br>
+        <input id="sTagl" type="text" maxlength="100" />
+        <br>
+        <small>Keep it short and sweet.</small>
+      </p>
+      <p>
+        Age:
+        <ul>
+          <li><input type="radio" id="bDob" name="age" value="dob" />
+              Calculate dynamically from your birthday
+              <div class="shade">
+                <input id="sDob" type="date"
+                    min="1950-01-01" max="2018-01-01" />
+              </div>
+          </li>
+          <li><input type="radio" id="bAge" name="age" value="age" />
+              Override with custom static text
+              <div class="shade">
+                <input id="sAge" type="text" maxlength="100" />
+              </div>
+          </li>
+        </ul>
+      </p>
+      <p>
+        Pronouns:
+        <ul>
+          <li><input type="checkbox" id="bPronCustom" />Custom
+              <div class="shade">
+                <input id="sPronCustom" type="text" maxlength="16" />
+              </div>
+          </li>
+          <li><input type="checkbox" id="bPronShe" />She/her</li>
+          <li><input type="checkbox" id="bPronHe" />He/him</li>
+          <li><input type="checkbox" id="bPronThey" />They/them</li>
+        </ul>
+      </p>
+      <p>
+        Location:
+        <br>
+        <input id="sLoc" type="text" maxlength="32" />
+        <br>
+        <small>Where do you live? ( ͡° ͜ʖ ͡°)</small>
+      </p>
+      <p>
+        Into:
+        <ul>
+          <li><input type="checkbox" id="bIntoGirls" />Girls</li>
+          <li><input type="checkbox" id="bIntoGuys" />Guys</li>
+          <li><input type="checkbox" id="bIntoCustom" />Custom
+              <div class="shade">
+                <input id="sIntoCustom" type="text" maxlength="32" />
+              </div>
+          </li>
+        </ul>
+      </p>
+      <p>
+        Relationship status:
+        <ul>
+          <li><input type="radio" id="bStaSingle" name="sta" value="single" />Single</li>
+          <li><input type="radio" id="bStaTaken" name="sta" value="taken" />Taken</li>
+          <li><input type="radio" id="bStaSbnl" name="sta" value="sbnl" />Single but not looking</li>
+          <li><input type="radio" id="bStaPoly" name="sta" value="poly" />Taken (poly)</li>
+          <li><input type="radio" id="bStaCustom" name="sta" value="custom" />Custom
+              <div class="shade">
+                <input id="sStaCustom" type="text" maxlength="32" />
+              </div>
+          </li>
+        </ul>
+      </p>
+      <p>
+        Looking for:
+        <ul>
+          <li><input type="checkbox" id="bLookFriendship" />Friendship</li>
+          <li><input type="checkbox" id="bLookCasualDate" />Casual dating</li>
+          <li><input type="checkbox" id="bLookSeriousDate" />Serious dating</li>
+          <li><input type="checkbox" id="bLookErp" />ERP</li>
+          <li><input type="checkbox" id="bLookNudes" />Nudes</li>
+          <li><input type="checkbox" id="bLookCustom" />Custom
+              <div class="shade">
+                <input id="sLookCustom" type="text" maxlength="16" />
+              </div>
+          </li>
+        </ul>
+      </p>
+      <p>
+        Likes:
+        <br>
+        <input id="sLike" type="text" maxlength="100" />
+        <br>
+        <small>What makes you happy?</small>
+      </p>
+      <p>
+        Dislikes:
+        <br>
+        <input id="sDisl" type="text" maxlength="100" />
+        <br>
+        <small>What could you do without?</small>
+      </p>
+      <p>
+        Hobbies:
+        <br>
+        <input id="sHobb" type="text" maxlength="100" />
+        <br>
+        <small>The stuff you like to do</small>
+      </p>
+      <p>
+        Custom:
+        <br>
+        <input id="sCustField" type="text" maxlength="16" style="width:15%" />
+        <input id="sCustValue" type="text" maxlength="112" style="width:62.5%" />
+        <br>
+        <small>Ask yourself a question... and answer it too!</small>
+      </p>
+      <p>
+        Image URL:
+        <br>
+        <input id="sImage" type="text" maxlength="255" value="https://" />
+        <br>
+        <small>The large image at the bottom.  Yes, GIFs are supported!</small>
+      </p>
+  </div>
+  <script type="text/javascript">
+    function autorun ()
+    {
+    
+    }
+    function loadProfile ()
+    {
+        var json = document.getElementById('sJson').value,
+            obj  = JSON && JSON.parse(json);
+        document.getElementById('sName').value       = obj.n;
+        document.getElementById('sLink').value       = obj.u;
+        document.getElementById('sAvatar').value     = obj.a;
+        document.getElementById('sTagl').value       = obj.t;
+        document.getElementById('sDob').value        = obj.b;
+        document.getElementById('sAge').value        = obj.o;
+        document.getElementById('sPronCustom').value = obj.p;
+        document.getElementById('sLoc').value        = obj.l;
+        document.getElementById('sStaCustom').value  = obj.s;
+        document.getElementById('sLookCustom').value = obj.f;
+        document.getElementById('sLike').value       = obj.y;
+        document.getElementById('sDisl').value       = obj.x;
+        document.getElementById('sHobb').value       = obj.h;
+        document.getElementById('sCustValue').value  = obj.q;
+        document.getElementById('sImage').value      = obj.i;
+    }
+    function saveProfile ()
+    {
+        var obj  = {};
+        obj.n    = document.getElementById('sName').value;
+        obj.u    = document.getElementById('sLink').value;
+        obj.a    = document.getElementById('sAvatar').value;
+        obj.t    = document.getElementById('sTagl').value;
+        obj.b    = document.getElementById('sDob').value;
+        if (document.getElementById('bAge').checked) {
+            obj.o = document.getElementById('sAge').value;
+        } else if (document.getElementById('bDob').checked) {
+            obj.o = '';
+        }
+        var prons = [];
+        if (document.getElementById('bPronCustom').checked) {
+            prons.push(document.getElementById('sPronCustom').value);
+        }
+        if (document.getElementById('bPronShe').checked) {
+            prons.push('she/her');
+        }
+        if (document.getElementById('bPronHe').checked) {
+            prons.push('he/him');
+        }
+        if (document.getElementById('bPronThey').checked) {
+            prons.push('they/them');
+        }
+        var pron;
+        switch (prons.length) {
+        case 0: pron = ''; break;
+        case 1: pron = prons[0]; break;
+        case 2: pron = prons[0] + ' or ' + prons[1]; break;
+        default:
+            var lastPron = prons.pop();
+            pron = prons.join(', ') + ', or ' + lastPron;
+            break;
+        }
+        obj.p    = pron;
+        obj.l    = document.getElementById('sLoc').value;
+        if (document.getElementById('bStaCustom').checked) {
+            obj.s = document.getElementById('sStaCustom').value;
+        } else if (document.getElementById('bStaSingle').checked) {
+            obj.s = 'Single';
+        } else if (document.getElementById('bStaTaken').checked) {
+            obj.s = 'Taken';
+        } else if (document.getElementById('bStaSbnl').checked) {
+            obj.s = 'Single but not looking';
+        } else if (document.getElementById('bStaPoly').checked) {
+            obj.s = 'Taken (poly)';
+        }
+        var lookings = [];
+        if (document.getElementById('bLookFriendship').checked) {
+            lookings.push('friendship');
+        }
+        if (document.getElementById('bLookCasualDate').checked) {
+            lookings.push('casual dating');
+        }
+        if (document.getElementById('bLookSeriousDate').checked) {
+            lookings.push('serious dating');
+        }
+        if (document.getElementById('bLookErp').checked) {
+            lookings.push('ERP');
+        }
+        if (document.getElementById('bLookNudes').checked) {
+            lookings.push('nudes');
+        }
+        if (document.getElementById('bLookCustom').checked) {
+            lookings.push(document.getElementById('sLookCustom').value);
+        }
+        var looking;
+        switch (lookings.length) {
+        case 0: looking = ''; break;
+        case 1: looking = lookings[0]; break;
+        case 2: looking = lookings[0] + ' and ' + lookings[1]; break;
+        default:
+            var lastLooking = lookings.pop();
+            looking = lookings.join(', ') + ', and ' + lastLooking;
+            break;
+        }
+        obj.f    = looking;
+        obj.y    = document.getElementById('sLike').value;
+        obj.x    = document.getElementById('sDisl').value;
+        obj.h    = document.getElementById('sHobb').value;
+        var cust, custval;
+        custval = document.getElementById('sCustValue').value;
+        if (custval.length > 0) {
+            cust = '**' + custval + ':** '
+        }
+        cust += document.getElementById('sCustField').value;
+        document.getElementById('sCustValue').value  = obj.q;
+        obj.i    = document.getElementById('sImage').value;
+        var json = JSON && JSON.stringify(obj);
+        document.getElementById('sJson').value = json;
+    }
+    if (window.addEventListener) window.addEventListener("load", autorun, false);
+    else if (window.attachEvent) window.attachEvent("onload", autorun);
+    else window.onload = autorun;
+    //</script>
+  </body>
+</html>
